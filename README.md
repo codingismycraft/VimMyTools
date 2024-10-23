@@ -19,9 +19,20 @@ Vim, offering a smoother and more efficient development process.
 
 - **Execute**: While in normal mode, press `<leader>r` to run the current Python file.
   - If the file is part of a test suite, it will run the test under the cursor or the entire suite.
+  
   - For non-test Python files, it executes the complete script.
   
 - **Debugging**: Use breakpoints in your code to facilitate debugging during execution.
+
+### How `make` is running and passing command line arguments.
+
+After pressing `<leader>r`, Vim will insert the `make` command into the command
+line. You will then have the option to press `Enter` to execute it or `Escape`
+to cancel. If you need to include command-line arguments, you can add them at
+this stage in the command prompt. Should you press `Escape`, the most recent
+`makeprg` will be retained in memory, meaning it will be used if you run the
+`make` command again later. You can still provide command-line arguments at
+that point if necessary.
 
 ## Installation
 
