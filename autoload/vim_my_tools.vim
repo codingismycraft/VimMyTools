@@ -1,13 +1,11 @@
 let s:plugin_path = expand('<sfile>:p:h')
 let s:path_was_added = 0
 
-
 python3 << endpython
-
-import os
-import sys
+import mytools.mytools as mytools
 import vim
-
+import sys
+import os
 def preparePythonPath():
     """Adds the path of the related code to the python path.
 
@@ -23,18 +21,39 @@ def preparePythonPath():
 endpython
 
 
-function! vim_my_tools#GetGitMakeProg()
-" Returns the command that will be passed to the makeprg optionl
-let make_program_command = "n/a" 
+function! vim_my_tools#RunSelectedScript()
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"
+" Sets the makeprg based on the location of the cursor in the current file.
+"
+" Based on the file type and the location of the cursor this function is
+" setting the proper value for the makeprg vim variable so the make can be
+" called accordingnly.
+"
+" Currently, only python is supported and the functionality in this case is to
+" detect if the user is pointing on a unit test or an regulart script and make
+" the proper calls.
+"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 python3 << endpython
 preparePythonPath()
-import mytools.mytools as mytools
 home_dir = vim.eval("""expand("$HOME")""")
 fullpath = vim.eval("""expand("%:p")""").strip()
-filepath = os.path.join(home_dir, fullpath)
-prg_cmd = mytools.get_program_command()
-vim.command(f"let make_program_command='{prg_cmd}'")
-endpython
-return make_program_command
-endfunction
 
+python_interpreter = vim.eval("g:python_interpreter")
+testing_program = vim.eval("g:testing_program")
+
+filepath = os.path.join(home_dir, fullpath)
+if filepath.endswith(".py"):
+    linenum = int(vim.eval(""" line(".") """))
+    exec_path = mytools.get_exec_target(filepath, linenum)
+    is_test = mytools.is_testing_script(filepath)
+    program_name = testing_program if is_test else python_interpreter
+    command = f"set makeprg={program_name}\\ {exec_path}"
+    print(command)
+    vim.command(command)
+    vim.command("make")
+else:
+    print(f"Do not know how to run {filepath}")
+endpython
+endfunction
