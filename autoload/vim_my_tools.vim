@@ -2,7 +2,6 @@ let s:plugin_path = expand('<sfile>:p:h')
 let s:path_was_added = 0
 
 python3 << endpython
-import mytools.mytools as mytools
 import vim
 import sys
 import os
@@ -37,6 +36,7 @@ function! vim_my_tools#RunSelectedScript()
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 python3 << endpython
 preparePythonPath()
+import mytools.mytools as mytools
 home_dir = vim.eval("""expand("$HOME")""")
 fullpath = vim.eval("""expand("%:p")""").strip()
 
