@@ -30,10 +30,9 @@ To install VimMyTools, use a Vim plugin manager like
 [Vundle](https://github.com/VundleVim/Vundle.vim), or
 [Pathogen](https://github.com/tpope/vim-pathogen).
 
-### Example with vim-plug:
-
+### Example with vundle:
 ```vim
-Plug 'your-repo/VimMyTools'
+Plugin 'codingismycraft/VimMyTools'
 ```
 
 After adding the line to your `.vimrc`, run `:PlugInstall` in Vim to install the plugin.
