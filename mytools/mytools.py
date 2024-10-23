@@ -40,7 +40,6 @@ def get_exec_target(fullpath, linenum):
     # Track function and class names
     current_class = None
     targeted_function = None
-
     for node in ast.walk(module):
         if isinstance(node, ast.FunctionDef):
             # Check if the function node includes the line number
@@ -54,11 +53,11 @@ def get_exec_target(fullpath, linenum):
                     node.end_lineno or (node.lineno + len(node.body))):
                 current_class = node.name
 
-    # Determine the execution target based on findings
-    if targeted_function and current_class:
-        return f"{fullpath}::{current_class}::{targeted_function}"
-    elif targeted_function:
-        return f"{fullpath}::{targeted_function}"
+    if targeted_function and targeted_function.lower().startswith("test"):
+        if current_class:
+            return f"{fullpath}::{current_class}::{targeted_function}"
+        else:
+            return f"{fullpath}::{targeted_function}"
     else:
         return fullpath
 

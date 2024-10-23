@@ -4,11 +4,7 @@ import unittest
 
 import tempfile
 import os
-import mytools
-
-# Aliases.
-get_exec_target = mytools.get_exec_target
-is_testing_script = mytools.is_testing_script
+from . mytools import get_exec_target, is_testing_script
 
 
 class TestFindExecTarget(unittest.TestCase):
@@ -48,7 +44,7 @@ def test_free_function():
         finally:
             os.remove(script_path)
 
-    def test_test_method_in_class(self):
+    def test_method_in_testing_class(self):
         """Tests running a method of a testing class."""
         script_content = """
 class TestClass:
@@ -65,6 +61,26 @@ def test_free_function():
 
             result = get_exec_target(script_path, 5)
             expected = f"{script_path}::test_free_function"
+            self.assertEqual(result, expected)
+
+        finally:
+            os.remove(script_path)
+
+    def test_method_in_regular_class(self):
+        """Tests running a method of a testing class."""
+        script_content = """
+class SomeClass:
+    def some_method(self):
+        pass
+"""
+        script_path = self.create_temp_script(script_content)
+        try:
+            result = get_exec_target(script_path, 3)
+            expected = f"{script_path}"
+            self.assertEqual(result, expected)
+
+            result = get_exec_target(script_path, 5)
+            expected = f"{script_path}"
             self.assertEqual(result, expected)
 
         finally:
@@ -124,6 +140,7 @@ def test_free_function():
             self.assertTrue(result)
         finally:
             os.remove(script_path)
+
 
 if __name__ == '__main__':
     unittest.main()
