@@ -37,15 +37,14 @@
 " Configuration:
 " --------------
 " - Set your desired Python interpreter in your .vimrc:
-"     let g:python_interpreter = 'python3'
+"     let g:python_interpreter = 'python3.X'
+"   
+"   The default python interpreter that is used if the above global variable is
+"   not defined is python (wherever this is pointing to).
 "     
+" - For tests, pytest will be required and must be installed and available to
+"   the running process.
 "=============================================================================
-
-" Define the python interpreter to use.
-let g:python_interpreter = "python3"
-
-" Define the testing program to use.
-let g:testing_program = "pytest"
 
 
 nnoremap <leader>r :call vim_my_tools#RunSelectedScript()<CR>

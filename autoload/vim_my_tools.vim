@@ -5,6 +5,7 @@ python3 << endpython
 import vim
 import sys
 import os
+
 def preparePythonPath():
     """Adds the path of the related code to the python path.
 
@@ -40,16 +41,21 @@ import mytools.mytools as mytools
 home_dir = vim.eval("""expand("$HOME")""")
 fullpath = vim.eval("""expand("%:p")""").strip()
 
-python_interpreter = vim.eval("g:python_interpreter")
-testing_program = vim.eval("g:testing_program")
+try:
+    python_interpreter = vim.eval("g:python_interpreter")
+except:
+    python_interpreter = "python"
+
+TESTING_PROGRAM = "pytest"
 
 filepath = os.path.join(home_dir, fullpath)
 if filepath.endswith(".py"):
     linenum = int(vim.eval(""" line(".") """))
     exec_path = mytools.get_exec_target(filepath, linenum)
     is_test = mytools.is_testing_script(filepath)
-    program_name = testing_program if is_test else python_interpreter
+    program_name = TESTING_PROGRAM if is_test else python_interpreter
     command = f"set makeprg={program_name}\\ {exec_path}"
+    print(command)
     vim.command(command)
 else:
     print(f"Do not know how to run {filepath}")
