@@ -41,7 +41,7 @@ def get_exec_target(fullpath, linenum):
     current_class = None
     targeted_function = None
     for node in ast.walk(module):
-        if isinstance(node, ast.FunctionDef):
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
             # Check if the function node includes the line number
             if node.lineno <= linenum < (
                     node.end_lineno or (node.lineno + len(node.body))):
