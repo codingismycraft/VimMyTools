@@ -55,7 +55,16 @@ if filepath.endswith(".py"):
     is_test = mytools.is_testing_script(filepath)
     program_name = TESTING_PROGRAM if is_test else python_interpreter
     command = f"set makeprg={program_name}\\ {exec_path}"
-    print(command)
+
+    # Adds the command to run in the clipboard just in case you need
+    # to execute it by hand in another CLI window.
+    run_command = f"{program_name} {exec_path}"
+    vim.command(f'let @*="{run_command}"')
+    vim.command(f'let @+="{run_command}"')
+    vim.command(f'let @"="{run_command}"')
+    vim.command(f'let @0="{run_command}"')
+
+    # Execute the make command (which will run either the script of the test).
     vim.command(command)
 else:
     print(f"Do not know how to run {filepath}")

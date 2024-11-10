@@ -19,10 +19,15 @@ Vim, offering a smoother and more efficient development process.
 
 - **Execute**: While in normal mode, press `<leader>r` to run the current Python file.
   - If the file is part of a test suite, it will run the test under the cursor or the entire suite.
-  
+
   - For non-test Python files, it executes the complete script.
-  
+
 - **Debugging**: Use breakpoints in your code to facilitate debugging during execution.
+
+- **cliboard**: The run command (can be running a python script, a test file or
+  a single test) is copied to the clipboard so it can be pasted to a command
+  line and run as as stand-alone without having to rely on vim's make
+  mechanism.
 
 ### How `make` is running and passing command line arguments.
 
