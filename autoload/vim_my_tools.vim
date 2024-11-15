@@ -21,6 +21,75 @@ def preparePythonPath():
 endpython
 
 
+
+function! vim_my_tools#OpenFile()
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"
+" Opens a file placing the cursor in the specified line number.
+"
+" If the cursor rests in a line containing a filename and line this
+" function will open it either in a new window or bring the existing window
+" to the front.
+"
+" If the line where the user's cursor does not conform to the expected format
+" then an error will be echoed.
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+python3 << endpython
+preparePythonPath()
+import mytools.mytools as mytools
+current_line = vim.eval("""getline('.')""")
+try:
+    filepath, line = mytools.get_filename_and_line(current_line)
+except ValueError:
+    vim.vars['vt_filepath'] = ""
+    vim.vars['vt_line'] = ""
+else:
+    vim.vars['vt_filepath'] = filepath
+    vim.vars['vt_line'] = line
+endpython
+
+let l:filepath = g:vt_filepath
+let l:line = g:vt_line
+
+if !empty(l:filepath)
+    call vim_my_tools#ActivateWindow(l:filepath, l:line)
+else
+    echo "No matching file was found.."
+endif
+
+if exists('g:vt_filepath')
+    unlet g:vt_filepath
+endif
+
+if exists('g:vt_line')
+    unlet g:vt_line
+endif
+
+endfunction
+
+function! vim_my_tools#ActivateWindow(filepath, line)
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Activates the passed in file and move the curssor to the specified line.
+"
+" If the passed in file path is already open then the corresponding window
+" will be activated.
+" Othewise the file will be opened in the active window (overwritting the
+" existing content).
+"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+execute "highlight CursorLine NONE"
+let windowNr = bufwinnr(a:filepath)
+if windowNr > 0
+    execute windowNr 'wincmd w'
+else
+    execute "edit ". a:filepath
+endif
+execute ":".a:line
+endfunction
+
+
 function! vim_my_tools#RunSelectedScript()
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "

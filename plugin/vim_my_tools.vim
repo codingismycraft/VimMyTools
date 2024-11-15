@@ -14,7 +14,7 @@
 " ---------
 " - Execute Python scripts or test suites directly from Vim with a single
 "   keystroke.
-"   
+"
 " - Automatically discern whether the current file is a test or regular script
 "   and run accordingly.
 "
@@ -38,16 +38,27 @@
 " --------------
 " - Set your desired Python interpreter in your .vimrc:
 "     let g:python_interpreter = 'python3.X'
-"   
+"
 "   The default python interpreter that is used if the above global variable is
 "   not defined is python (wherever this is pointing to).
-"     
+"
 " - For tests, pytest will be required and must be installed and available to
 "   the running process.
 "=============================================================================
 
 
 nnoremap <leader>r :call vim_my_tools#RunSelectedScript()<CR>
+
+
+
+" <leader>t
+" Pressing this key combination will open the file referenced by the
+" line under the cursor, typically in the context of an exception
+" traceback. When the cursor is positioned over a line that contains a
+" file path and a line number (commonly found in error messages), this
+" plugin will jump to the specified file and navigate to the
+" corresponding line number.
+nnoremap <leader>t :call vim_my_tools#OpenFile()<CR>
 
 
 

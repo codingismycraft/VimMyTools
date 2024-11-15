@@ -4,7 +4,40 @@ import unittest
 
 import tempfile
 import os
-from . mytools import get_exec_target, is_testing_script
+from . mytools import get_exec_target, is_testing_script, get_filename_and_line
+
+
+class TestGetFilenameAndLine(unittest.TestCase):
+    """Tests the get_filename_and_line function."""
+
+    INVALID_LINES = [
+        'line 3, in <module>',  # Missing the "File" keyword and file path
+        'File "/home/john/junk/junk.py", not a number',  # Missing line
+        '',  # Completely empty input
+        'This is just some random text with no correct format',  # Invalid
+        'File "some_file.py"',  # Missing line number
+        'File , line 3',  # Missing file path
+        '"junk.py", line 3',  # Missing the "File" keyword
+        'File "junk.py", in <module>',  # Missing the line number
+        'File "/home/john/junk/junk.py", line',  # Not a line number
+        'File "/home/john/junk/junk.py line 3',  # Missing comma after filename
+        'File "/home/john/junk/junk.py", line abc ',  # Invalid line
+    ]
+
+    def test_successfull_call(self):
+        """Test calling get_filename_and_line successfully."""
+        line = 'File "/home/john/junk/junk.py", line 321, in <module>'
+        path, line = get_filename_and_line(line)
+        expected_path = "/home/john/junk/junk.py"
+        expected_line = 321
+        self.assertEqual(path, expected_path)
+        self.assertEqual(line, expected_line)
+
+    def test_not_containing_valid_file(self):
+        """Tests calling get_filename_and_line with invalid text."""
+        for line in self.INVALID_LINES:
+            with self.assertRaises(ValueError):
+                get_filename_and_line(line)
 
 
 class TestFindExecTarget(unittest.TestCase):

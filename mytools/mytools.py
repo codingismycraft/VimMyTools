@@ -1,6 +1,8 @@
 """Exports utility functions."""
 
 import ast
+import os
+import re
 
 
 def get_exec_target(fullpath, linenum):
@@ -93,3 +95,33 @@ def is_testing_script(filepath):
                 return True
 
     return False
+
+
+def get_filename_and_line(line):
+    """Extracts the filepath and the line from the passed in line.
+
+    Used to jump to the file and the line that is causing a python exception.
+    Expects the standard format that is used from python tracebacks, example:
+
+    File "/home/john/junk/junk.py", line 3, in <module>
+
+    :param str line: The line of text to extract the fullpath; if no path is
+    found then a ValueError exception is raised.
+
+    :returns: A tuple consisting of the filepath and line number.
+    :rtype: Tuple [str, int]
+
+    :raises: ValueError
+    """
+    log_entry = line
+    pattern = r'File "(.*?)", line (\d+)'
+    match = re.search(pattern, log_entry)
+    if match:
+        full_path = match.group(1)
+        if not os.path.isfile(full_path):
+            raise ValueError
+        line_number = match.group(2)
+        line_number = int(line_number)
+        return full_path, line_number
+    else:
+        raise ValueError
