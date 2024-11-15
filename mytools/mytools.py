@@ -1,7 +1,6 @@
 """Exports utility functions."""
 
 import ast
-import os
 import re
 
 
@@ -103,7 +102,11 @@ def get_filename_and_line(line):
     Used to jump to the file and the line that is causing a python exception.
     Expects the standard format that is used from python tracebacks, example:
 
-    File "/home/john/junk/junk.py", line 3, in <module>
+    File "/home/user/junk/junk.py", line 3, in <module>
+
+    Note that this function does not check wheather the returned file exists or
+    not; this something that the called should do.
+
 
     :param str line: The line of text to extract the fullpath; if no path is
     found then a ValueError exception is raised.
@@ -118,10 +121,20 @@ def get_filename_and_line(line):
     match = re.search(pattern, log_entry)
     if match:
         full_path = match.group(1)
-        if not os.path.isfile(full_path):
-            raise ValueError
         line_number = match.group(2)
         line_number = int(line_number)
         return full_path, line_number
     else:
-        raise ValueError
+        # Try the alternative formats which are delimeted by | or by :
+        tokens = line.split("|")
+        if len(tokens) < 2:
+            tokens = line.split(":")
+        if len(tokens) < 2:
+            raise ValueError
+        full_path = tokens[0]
+        try:
+            line_number = int(tokens[1])
+        except Exception as ex:
+            raise ValueError from ex
+        return full_path, line_number
+    raise ValueError
