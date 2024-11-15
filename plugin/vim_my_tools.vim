@@ -4,11 +4,11 @@
 "
 " Description:
 " ------------
-" VimMyTools is a straightforward Vim plugin that enhances the Python
-" development workflow by allowing users to run Python scripts and tests
-" seamlessly from within Vim. By recognizing the context of the file, it will
-" either run the entire script or the relevant test, providing a simple yet
-" efficient development aid.
+"" VimMyTools is a Vim plugin that streamlines the workflow for Python
+" development. It provides convenient keybindings for running Python scripts and
+" opening files referenced in error tracebacks directly from Vim. By automating
+" these processes, VimMyTools enhances productivity and ease of navigation within
+" Python projects.
 "
 " Installation:
 " ------------
