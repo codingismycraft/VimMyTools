@@ -39,14 +39,17 @@ python3 << endpython
 preparePythonPath()
 import mytools.mytools as mytools
 current_line = vim.eval("""getline('.')""")
+vim.vars['vt_filepath'] = ""
+vim.vars['vt_line'] = ""
 try:
     filepath, line = mytools.get_filename_and_line(current_line)
 except ValueError:
     vim.vars['vt_filepath'] = ""
     vim.vars['vt_line'] = ""
 else:
-    vim.vars['vt_filepath'] = filepath
-    vim.vars['vt_line'] = line
+    if os.path.isfile(filepath):
+        vim.vars['vt_filepath'] = filepath
+        vim.vars['vt_line'] = line
 endpython
 
 let l:filepath = g:vt_filepath
