@@ -11,6 +11,14 @@ Python developers.
 You can install VimMyTools using your preferred Vim plugin manager. Here are
 installation instructions for some popular managers:
 
+## VIm Prerequisites
+Ensure that your version of Vim is compiled with Python support enabled. You
+can check this by running the following command in Vim:
+
+```vim
+:echo has("python3")
+```
+
 ### Using **vim-plug**
 ```vim
 Plug 'user/VimMyTools'
