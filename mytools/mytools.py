@@ -1,6 +1,7 @@
 """Exports utility functions."""
 
 import ast
+import os
 import re
 
 
@@ -117,6 +118,8 @@ def get_filename_and_line(line):
     match = re.search(pattern, log_entry)
     if match:
         full_path = match.group(1)
+        if not os.path.isfile(full_path):
+            raise ValueError
         line_number = match.group(2)
         line_number = int(line_number)
         return full_path, line_number
