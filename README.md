@@ -1,63 +1,109 @@
 # VimMyTools
 
-VimMyTools is a simple Vim plugin designed to streamline the workflow for
-Python developers. It enables you to run Python scripts and tests directly from
-Vim, offering a smoother and more efficient development process.
-
-## Features
-
-- **Run Python Scripts and Tests**: Execute both Python scripts and test suites
-  directly from Vim.
-
-- **Context Aware Execution**: Automatically detects if the current buffer is a
-  test or regular script and runs it accordingly.
-
-- **Integrated Output**: Displays execution output within Vim for quick and
-  easy access.
-
-## Usage
-
-- **Execute**: While in normal mode, press `<leader>r` to run the current Python file.
-  - If the file is part of a test suite, it will run the test under the cursor or the entire suite.
-
-  - For non-test Python files, it executes the complete script.
-
-- **Debugging**: Use breakpoints in your code to facilitate debugging during execution.
-
-- **cliboard**: The run command (can be running a python script, a test file or
-  a single test) is copied to the clipboard so it can be pasted to a command
-  line and run as as stand-alone without having to rely on vim's make
-  mechanism.
-
-### How `make` is running and passing command line arguments.
-
-After pressing `<leader>r`, Vim will insert the `make` command into the command
-line. You will then have the option to press `Enter` to execute it or `Escape`
-to cancel. If you need to include command-line arguments, you can add them at
-this stage in the command prompt. Should you press `Escape`, the most recent
-`makeprg` will be retained in memory, meaning it will be used if you run the
-`make` command again later. You can still provide command-line arguments at
-that point if necessary.
+## Introduction
+VimMyTools is a Vim plugin designed to enhance the Python development
+experience directly from the editor. By providing convenient features for
+executing scripts, navigating error tracebacks, and potentially more in the
+future, it aims to streamline coding workflows and improve productivity for
+Python developers.
 
 ## Installation
+You can install VimMyTools using your preferred Vim plugin manager. Here are
+installation instructions for some popular managers:
 
-To install VimMyTools, use a Vim plugin manager like
-[vim-plug](https://github.com/junegunn/vim-plug),
-[Vundle](https://github.com/VundleVim/Vundle.vim), or
-[Pathogen](https://github.com/tpope/vim-pathogen).
-
-### Example with vundle:
+### Using **vim-plug**
 ```vim
-Plugin 'codingismycraft/VimMyTools'
+Plug 'user/VimMyTools'
 ```
 
-After adding the line to your `.vimrc`, run `:PlugInstall` in Vim to install the plugin.
+### Using **Vundle**
+```vim
+Plugin 'user/VimMyTools'
+```
+
+### Using **Pathogen**
+```sh
+git clone https://github.com/user/VimMyTools ~/.vim/bundle/VimMyTools
+```
 
 ## Configuration
-
-Specify your preferred Python interpreter in your `.vimrc`:
+To configure VimMyTools, set your preferred Python interpreter in your `.vimrc`
+file:
 
 ```vim
-let g:python_interpreter = 'python3'
+let g:python_interpreter = 'python3.X'
 ```
 
+If this is not specified, the plugin defaults to using `python`, which resolves
+to the system's default Python version.
+
+Additionally, ensure that `pytest` is installed and accessible if you plan to
+run tests.
+
+## Keybindings
+
+### `<leader>r` Mapping
+
+#### Description
+The `<leader>r` keybinding allows you to execute Python scripts or test suites
+directly from Vim. It intelligently detects whether the current file is a test
+file or a regular script, executing the appropriate command.
+
+#### Functionality
+- **Test Files**:
+  - Runs the specific test under the cursor or the entire suite if no specific test is highlighted.
+- **Non-Test Python Files**:
+  - Executes the entire script.
+- Displays the output within Vim for easy review.
+
+#### Usage
+In Normal mode, place the cursor in the desired context and press `<leader>r`.
+
+#### Mapping Command
+```vim
+nnoremap <leader>r :call vim_my_tools#RunSelectedScript()<CR>
+```
+
+### `<leader>t` Mapping
+
+#### Description
+The `<leader>t` keybinding facilitates opening files referenced by the line
+under the cursor. This is particularly useful for navigating to the exact
+source of exceptions or errors when reviewing tracebacks.
+
+#### Supported Formats
+1. **Python Traceback**:
+   - Matches typical Python error message format:
+     ```
+     File '/home/user/junk/junk.py', line 2, in test_junk
+     ```
+
+2. **Quickfix List with copen**:
+   - Format observed in quickfix lists, often used with pytest:
+     ```
+     some_module.py|2| ValueError
+     ```
+
+3. **Pytest Command Line Output**:
+   - Format seen in pytest command line output:
+     ```
+     some_module.py:42: AssertionError
+     ```
+
+#### Usage
+Position the cursor on a line with one of the identified formats and press
+`<leader>t` to open the file and navigate to the specified line.
+
+#### Mapping Command
+```vim
+nnoremap <leader>t :call vim_my_tools#OpenFile()<CR>
+```
+
+## Future Enhancements
+VimMyTools is designed with extensibility in mind. Future updates may introduce
+additional features to further support Python developers in their coding
+environment.
+
+## Contributing
+Contributions are welcome! Please feel free to submit issues or pull requests
+to help improve VimMyTools.
