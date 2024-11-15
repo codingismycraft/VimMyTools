@@ -87,7 +87,7 @@ let windowNr = bufwinnr(a:filepath)
 if windowNr > 0
     execute windowNr 'wincmd w'
 else
-    execute "edit ". a:filepath
+    execute "sp ". a:filepath
 endif
 execute ":".a:line
 endfunction
