@@ -85,3 +85,14 @@ nnoremap <leader>r :call vim_my_tools#RunSelectedScript()<CR>
 nnoremap <leader>t :call vim_my_tools#OpenFile()<CR>
 
 "=============================================================================
+"
+" <leader>b Mapping
+"
+" Overview:
+" Writes the doc string for the python function, method or class
+" that is copied to the "0 register.
+"
+" The created docstring is copied to the "* register.
+"
+nnoremap <leader>b :call vim_my_tools#MakeDocStr()<CR>
+

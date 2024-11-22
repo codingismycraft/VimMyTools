@@ -102,6 +102,16 @@ source of exceptions or errors when reviewing tracebacks.
 Position the cursor on a line with one of the identified formats and press
 `<leader>t` to open the file and navigate to the specified line.
 
+
+### `<leader>b` Mapping
+
+####  Overview:
+Writes the doc string for the python function, method or class
+that is copied to the "0 register.
+
+The created docstring is copied to the "* register.
+
+
 #### Mapping Command
 ```vim
 nnoremap <leader>t :call vim_my_tools#OpenFile()<CR>

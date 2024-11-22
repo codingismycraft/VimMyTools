@@ -20,6 +20,20 @@ def preparePythonPath():
         vim.command("let s:path_was_added = 1")
 endpython
 
+function! vim_my_tools#MakeDocStr()
+python3 << endpython
+preparePythonPath()
+from mytools.documenter import make_post_request
+txt = vim.eval("""@0""")
+error = None
+try:
+    docstr = make_post_request(txt)
+    vim.command(f"let @*='{docstr}'")
+    vim.command("echo 'ok'")
+except ValueError:
+    vim.command("echo 'Failed to create the docstr'")
+endpython
+endfunction
 
 
 function! vim_my_tools#OpenFile()
