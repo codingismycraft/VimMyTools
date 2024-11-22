@@ -29,6 +29,8 @@ error = None
 try:
     docstr = make_post_request(txt)
     vim.command(f"let @*='{docstr}'")
+    vim.command(f"let @+='{docstr}'")
+    vim.command(f"let @\"='{docstr}'")
     vim.command("echo 'ok'")
 except ValueError:
     vim.command("echo 'Failed to create the docstr'")
