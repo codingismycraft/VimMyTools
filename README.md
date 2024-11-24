@@ -126,6 +126,21 @@ The created docstring is copied to the "* register.
 nnoremap <leader>t :call vim_my_tools#OpenFile()<CR>
 ```
 
+#### Setting the QueryCrafter host
+
+If you need to use a remote QueryCrafter server you can add it in the file:
+`VimMyTools/mytools/.config.json`
+
+using this format:
+```
+{
+    "QUERYCRAFTER_HOST": "http://kasos:15959"
+}
+```
+
+By default the pluggin in expecting the serive to be running under the local
+host in the `15959` port.
+
 ## Future Enhancements
 VimMyTools is designed with extensibility in mind. Future updates may introduce
 additional features to further support Python developers in their coding
