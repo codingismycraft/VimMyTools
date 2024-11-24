@@ -8,6 +8,15 @@ future, it aims to streamline coding workflows and improve productivity for
 Python developers.
 
 ## Installation
+
+To get the auto code generator you will need to have pyperclip and xclip
+installed on your system.
+
+```
+pip install pyperclip
+sudo apt-get install xclip
+```
+
 You can install VimMyTools using your preferred Vim plugin manager. Here are
 installation instructions for some popular managers:
 

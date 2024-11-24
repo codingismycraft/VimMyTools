@@ -2,9 +2,11 @@ let s:plugin_path = expand('<sfile>:p:h')
 let s:path_was_added = 0
 
 python3 << endpython
-import vim
-import sys
+
 import os
+import subprocess
+import sys
+import vim
 
 def preparePythonPath():
     """Adds the path of the related code to the python path.
@@ -21,20 +23,13 @@ def preparePythonPath():
 endpython
 
 function! vim_my_tools#MakeDocStr()
-python3 << endpython
-preparePythonPath()
-from mytools.documenter import make_post_request
-txt = vim.eval("""@0""")
-error = None
-try:
-    docstr = make_post_request(txt)
-    vim.command(f"let @*='{docstr}'")
-    vim.command(f"let @+='{docstr}'")
-    vim.command(f"let @\"='{docstr}'")
-    vim.command("echo 'ok'")
-except ValueError:
-    vim.command("echo 'Failed to create the docstr'")
-endpython
+let fullpath = s:plugin_path . "/../mytools/execquery.py"
+let exit_status = system(fullpath)
+if v:shell_error != 0
+    echom "Query Execution failed!"
+else
+    echom "!Query Execution OK."
+endif
 endfunction
 
 
