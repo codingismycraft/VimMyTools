@@ -18,6 +18,7 @@ pip install pyperclip
 sudo apt-get install xclip
 """
 
+import json
 import logging
 import os
 import pathlib
@@ -26,7 +27,27 @@ import sys
 import requests
 import pyperclip
 
-DEFAULT_URL = "http://127.0.0.1:15959"
+_DEFAULT_URL = "http://127.0.0.1:15959"
+
+_CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
+
+
+def get_url():
+    """Returns the url of the QueryCrafter server to use.
+
+    Uses the QUERYCRAFTER_HOST value from the local .config.json file, if
+    available. Otherwise, defaults to the standard host.
+
+    :returns: The URL for the QueryCrafter server.
+    :rtype: str
+    """
+    config_filepath = os.path.join(_CURRENT_DIR, ".config.json")
+    try:
+        with open(config_filepath) as fin:
+            settings = json.load(fin)
+        return settings["QUERYCRAFTER_HOST"]
+    except (BaseException, Exception):
+        return _DEFAULT_URL
 
 
 def main():
@@ -54,7 +75,7 @@ def main():
     if logger:
         logger.info("Processing text: %s", str(data))
     try:
-        url = DEFAULT_URL
+        url = get_url()
         payload = {
             "text": data
         }
