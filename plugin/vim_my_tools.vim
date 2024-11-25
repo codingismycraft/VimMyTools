@@ -94,5 +94,5 @@ nnoremap <leader>t :call vim_my_tools#OpenFile()<CR>
 "
 " The created docstring is copied to the "* register.
 "
-nnoremap <leader>b :call vim_my_tools#MakeDocStr()<CR>
+nnoremap <silent><leader>b :call vim_my_tools#MakeDocStr()<CR>
 

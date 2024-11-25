@@ -23,12 +23,14 @@ def preparePythonPath():
 endpython
 
 function! vim_my_tools#MakeDocStr()
+set cmdheight=2
+echo "Please wait.."
 let fullpath = s:plugin_path . "/../mytools/execquery.py"
 let exit_status = system(fullpath)
 if v:shell_error != 0
     echom "Query Execution failed!"
 else
-    echom "!Query Execution OK."
+    echo "Query Execution OK."
 endif
 endfunction
 
