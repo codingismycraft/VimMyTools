@@ -116,3 +116,18 @@ class TestGetPreviousBuffer:
         retrieved = BufferManager.get_previous_buffer(1, buffer_id)
         expected = buffer_ids[-1]
         assert expected == retrieved
+
+def test_get_as_str():
+    """Tests the get_as_str method."""
+    BufferManager.clear()
+
+    buffer_ids = [14, 82, 1, 33, 12]
+    for buffer_id in buffer_ids:
+        BufferManager.add_buffer(window_id=1, buffer_id=buffer_id)
+
+    buffer_ids = [14, 82, 1, 44, 55]
+    for buffer_id in buffer_ids:
+        BufferManager.add_buffer(window_id=2, buffer_id=buffer_id)
+
+    retrieved = BufferManager.get_as_str()
+    assert isinstance(retrieved, str)

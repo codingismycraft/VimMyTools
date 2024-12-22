@@ -127,3 +127,37 @@ class BufferManager:
         if next_pos < 0:
             next_pos = len(buffers) -1
         return buffers[next_pos]
+
+
+    @classmethod
+    def get_buffers(cls, window_id):
+        """Returns the buffer_id for the passed in window_id.
+
+        :param int window_id: The window_id to get the buffers for.
+
+        :returns: A list with the buffer ids for the passed in window.
+        :rtype: list
+
+        :raises: ValueError
+        """
+        buffers = cls._buffers_per_window.get(window_id)
+        if not buffers:
+            raise ValueError(f"Window id {window_id} not BufferManager.")
+        return buffers[:]
+
+    @classmethod
+    def get_as_str(cls):
+        """Returns the buffers per window as a string.
+
+        :returns: The buffers per window as a string.
+        :rtype: str
+        """
+        desc = []
+        for k, v in cls._buffers_per_window.items():
+            buffers = ','.join([str(b) for b in v])
+            desc.append(f"[ {k}: {buffers} ] ")
+        if not desc:
+            return "No buffers.."
+        return " ".join(desc)
+
+

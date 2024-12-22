@@ -156,3 +156,106 @@ else:
 endpython
 call feedkeys(":make", 'n')
 endfunction
+
+
+function! vim_my_tools#AddBuffer()
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Binds the buffer_id with the buffers for the window_id.
+"
+" Meant to be called every time the buffer is becoming visible in the
+" passed in window.
+"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+python3 << endpython
+preparePythonPath()
+import mytools.buffer_manager as buffer_manager
+window_id = vim.eval("""win_getid()""")
+buffer_id = vim.eval("""bufnr()""")
+try:
+    buffer_manager.BufferManager.add_buffer(window_id, buffer_id)
+except:
+    print("Failed..")
+endpython
+endfunction
+
+
+function! vim_my_tools#RemoveBuffer(buffer_id)
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Removes the buffer_id with the buffers for the window_id.
+"
+" Meant to be called when the buffer is removed from the memory.
+"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+python3 << endpython
+preparePythonPath()
+import mytools.buffer_manager as buffer_manager
+try:
+    buffer_manager.BufferManager.remove_buffer(buffer_id)
+except:
+    print("Failed..")
+endpython
+endfunction
+
+function! vim_my_tools#ShowNextBuffer()
+python3 << endpython
+preparePythonPath()
+import mytools.buffer_manager as buffer_manager
+window_id = vim.eval("""win_getid()""")
+try:
+    while True:
+        buffer_id = vim.eval("""bufnr()""")
+        b = buffer_manager.BufferManager.get_next_buffer(window_id, buffer_id)
+        exists = int(vim.eval(f"buflisted({b})"))
+        if exists:
+            vim.command(f"buffer {b}")
+            break
+        else:
+            buffer_manager.BufferManager.remove_buffer(b)
+except Exception as ex:
+    print("Failed to show next buffer: " + str(ex))
+endpython
+endfunction
+
+function! vim_my_tools#ShowPreviousBuffer()
+python3 << endpython
+preparePythonPath()
+import mytools.buffer_manager as buffer_manager
+window_id = vim.eval("""win_getid()""")
+try:
+    while True:
+        buffer_id = vim.eval("""bufnr()""")
+        b = buffer_manager.BufferManager.get_previous_buffer(window_id, buffer_id)
+        exists = int(vim.eval(f"buflisted({b})"))
+        if exists:
+            vim.command(f"buffer {b}")
+            break
+        else:
+            buffer_manager.BufferManager.remove_buffer(b)
+except Exception as ex:
+    print("Failed to show previous buffer: " + str(ex))
+endpython
+endfunction
+
+
+function! vim_my_tools#ListBuffersForActiveWindow()
+python3 << endpython
+preparePythonPath()
+import mytools.buffer_manager as buffer_manager
+window_id = vim.eval("""win_getid()""")
+buffers = buffer_manager.BufferManager.get_buffers(window_id)
+try:
+    lines = []
+    for buffer_id in buffers:
+        exists = int(vim.eval(f"buflisted({buffer_id})"))
+        if exists:
+            buffer_name = vim.eval(f"bufname({buffer_id})")
+            lines.append(buffer_name)
+        else:
+            buffer_manager.BufferManager.remove_buffer(buffer_id)
+    buffers_str = '\n'.join(lines)
+    vim.command(f"""echo "{buffers_str}" """)
+except Exception as ex:
+    print("Failed to show previous buffer: " + str(ex))
+endpython
+endfunction
+
