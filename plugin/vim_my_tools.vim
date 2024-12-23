@@ -102,13 +102,13 @@ nnoremap <silent><leader>b :call vim_my_tools#MakeDocStr()<CR>
 "
 "
 autocmd! BufWinEnter * :call vim_my_tools#AddBuffer()
+autocmd! WinNew * :call vim_my_tools#AddBuffer()
 
 " Ctrl -n : Displays the next buffer in the list.
 nnoremap <C-n> :call vim_my_tools#ShowNextBuffer()<CR>
 
 " Ctrl -b : Displays the previous buffer in the list.
 nnoremap <C-b> :call vim_my_tools#ShowPreviousBuffer()<CR>
-
 
 " Ctrl -a : Displays all available buffers
 nnoremap <C-a> :call vim_my_tools#ListBuffersForActiveWindow()<CR>

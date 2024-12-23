@@ -242,14 +242,17 @@ python3 << endpython
 preparePythonPath()
 import mytools.buffer_manager as buffer_manager
 window_id = vim.eval("""win_getid()""")
-buffers = buffer_manager.BufferManager.get_buffers(window_id)
+current_buffer_id = vim.eval("""bufnr()""")
+buffer_ids = buffer_manager.BufferManager.get_buffers(
+    window_id, current_buffer_id
+)
 try:
     lines = []
-    for buffer_id in buffers:
+    for buffer_id in buffer_ids:
         exists = int(vim.eval(f"buflisted({buffer_id})"))
         if exists:
             buffer_name = vim.eval(f"bufname({buffer_id})")
-            lines.append(buffer_name)
+            lines.append(f"{buffer_name} ({buffer_id})")
         else:
             buffer_manager.BufferManager.remove_buffer(buffer_id)
     buffers_str = '\n'.join(lines)

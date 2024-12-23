@@ -1,151 +1,438 @@
 # VimMyTools
 
+VimMyTools - Streamline Python Development in Vim
+
+---
+
+## Contents
+
+1. [Introduction](#introduction)
+2. [Installation](#installation)
+3. [Configuration](#configuration)
+4. [Key Mappings](#key-mappings)
+    - [4.1. `<Leader>r` Mapping](#41-leaderr-mapping)
+    - [4.2. `<Leader>t` Mapping](#42-leadert-mapping)
+    - [4.3. `<Leader>b` Mapping](#43-leaderb-mapping)
+    - [4.4. Buffer Navigation Keybindings](#44-buffer-navigation-keybindings)
+        - [4.4.1. `<C-n>`: Show Next Buffer](#441-c-n-show-next-buffer)
+        - [4.4.2. `<C-b>`: Show Previous Buffer](#442-c-b-show-previous-buffer)
+        - [4.4.3. `<C-a>`: List Buffers for Active Window](#443-c-a-list-buffers-for-active-window)
+5. [Commands](#commands)
+6. [License](#license)
+7. [Contact Information](#contact-information)
+
+---
+
 ## Introduction
-VimMyTools is a Vim plugin designed to enhance the Python development
-experience directly from the editor. By providing convenient features for
-executing scripts, navigating error tracebacks, and potentially more in the
-future, it aims to streamline coding workflows and improve productivity for
-Python developers.
+
+VimMyTools is a Vim plugin designed to streamline the workflow for Python
+development. It provides convenient key mappings for:
+
+- Running Python scripts and test suites directly from Vim.
+- Opening files referenced in error tracebacks.
+- Generating docstrings for Python functions, methods, and classes.
+- Enhanced buffer management per window.
+
+By automating these tasks, VimMyTools enhances productivity and eases
+navigation within Python projects.
+
+---
 
 ## Installation
 
-To get the auto code generator you will need to have pyperclip and xclip
-installed on your system.
+**Using a Plugin Manager:**
 
-```
-pip install pyperclip
-sudo apt-get install xclip
-```
+- **vim-plug:**
 
-You can install VimMyTools using your preferred Vim plugin manager. Here are
-installation instructions for some popular managers:
+  Add the following line to your `vimrc` or `init.vim`:
 
-## VIm Prerequisites
-Ensure that your version of Vim is compiled with Python support enabled. You
-can check this by running the following command in Vim:
+  ```vim
+  Plug 'codingismycraft/VimMyTools/VimMyTools'
+  ```
 
-```vim
-:echo has("python3")
-```
+  Then, run `:PlugInstall` in Vim.
 
-### Using **vim-plug**
-```vim
-Plug 'user/VimMyTools'
-```
+- **Vundle:**
 
-### Using **Vundle**
-```vim
-Plugin 'user/VimMyTools'
-```
+  Add:
 
-### Using **Pathogen**
-```sh
-git clone https://github.com/user/VimMyTools ~/.vim/bundle/VimMyTools
-```
+  ```vim
+  Plugin 'codingismycraft/VimMyTools/VimMyTools'
+  ```
+
+  Then, run `:PluginInstall`.
+
+- **Pathogen:**
+
+  Clone the repository into your `bundle` directory:
+
+  ```bash
+  git clone https://github.com/codingismycraft/VimMyTools/VimMyTools.git ~/.vim/bundle/VimMyTools
+  ```
+
+**Manual Installation:**
+
+1. Download or clone the VimMyTools plugin repository.
+2. Copy the contents to your `.vim` directory (`~/.vim/`).
+
+---
 
 ## Configuration
-To configure VimMyTools, set your preferred Python interpreter in your `.vimrc`
-file:
+
+### Set Python Interpreter
+
+By default, VimMyTools uses the `python` command available in your system path. To specify a different Python interpreter, add the following line to your `vimrc` or `init.vim`:
 
 ```vim
-let g:python_interpreter = 'python3.X'
+let g:python_interpreter = 'python3.9'
 ```
 
-If this is not specified, the plugin defaults to using `python`, which resolves
-to the system's default Python version.
+Replace `'python3.9'` with the Python interpreter version you wish to use.
 
-Additionally, ensure that `pytest` is installed and accessible if you plan to
-run tests.
+### Requirements for Testing
 
-## Keybindings
+- **Pytest** must be installed and available if you intend to run tests. Install Pytest via pip:
 
-### `<leader>r` Mapping
+  ```bash
+  pip install pytest
+  ```
 
-#### Description
-The `<leader>r` keybinding allows you to execute Python scripts or test suites
-directly from Vim. It intelligently detects whether the current file is a test
-file or a regular script, executing the appropriate command.
+---
 
-#### Functionality
-- **Test Files**:
-  - Runs the specific test under the cursor or the entire suite if no specific test is highlighted.
-- **Non-Test Python Files**:
+## Key Mappings
+
+VimMyTools introduces several key mappings to enhance your Python development experience.
+
+### 4.1. `<Leader>r` Mapping
+
+**Description:**
+
+- Executes Python scripts or test suites directly from Vim.
+
+**Mode:**
+
+- Normal mode
+
+**Default Mapping:**
+
+```vim
+nnoremap <Leader>r :call VimMyTools#RunSelectedScript()<CR>
+```
+
+**Features:**
+
+- Automatically detects if the current file is a test or a regular script.
+- Runs the test under the cursor, the entire test suite, or executes the script.
+- Displays output within Vim for easy access and review.
+
+**Usage:**
+
+- **Run Current Python File:**
+
+  In Normal mode, press `<Leader>r` to execute the current Python file.
+
+- **In Test Files:**
+
+  - If the cursor is on a test function or method, pressing `<Leader>r` will run that specific test.
+  - If not on a specific test, it will run the entire test suite in the file.
+
+- **In Regular Python Files:**
+
   - Executes the entire script.
-- Displays the output within Vim for easy review.
 
-#### Usage
-In Normal mode, place the cursor in the desired context and press `<leader>r`.
+**Examples:**
 
-#### Mapping Command
+- **Running a script:**
+
+  Open `script.py`, then press `<Leader>r`.
+
+- **Running a specific test:**
+
+  Open `test_module.py`, place the cursor on `def test_example():`, then press `<Leader>r` to run only `test_example`.
+
+### 4.2. `<Leader>t` Mapping
+
+**Description:**
+
+- Opens the file referenced by the line under the cursor, especially useful for navigating error tracebacks.
+
+**Mode:**
+
+- Normal mode
+
+**Default Mapping:**
+
 ```vim
-nnoremap <leader>r :call vim_my_tools#RunSelectedScript()<CR>
+nnoremap <Leader>t :call VimMyTools#OpenFile()<CR>
 ```
 
-### `<leader>t` Mapping
+**Supported Formats:**
 
-#### Description
-The `<leader>t` keybinding facilitates opening files referenced by the line
-under the cursor. This is particularly useful for navigating to the exact
-source of exceptions or errors when reviewing tracebacks.
+1. **Python Traceback:**
 
-#### Supported Formats
-1. **Python Traceback**:
-   - Matches typical Python error message format:
-     ```
-     File '/home/user/junk/junk.py', line 2, in test_junk
-     ```
+   ```
+   File "/path/to/file.py", line 42, in function_name
+   ```
 
-2. **Quickfix List with copen**:
-   - Format observed in quickfix lists, often used with pytest:
-     ```
-     some_module.py|2| ValueError
-     ```
+2. **Quickfix List with `:copen`:**
 
-3. **Pytest Command Line Output**:
-   - Format seen in pytest command line output:
-     ```
-     some_module.py:42: AssertionError
-     ```
+   ```
+   file.py|42| Error message here
+   ```
 
-#### Usage
-Position the cursor on a line with one of the identified formats and press
-`<leader>t` to open the file and navigate to the specified line.
+3. **Pytest Command Line Output:**
 
+   ```
+   file.py:42: AssertionError
+   ```
 
-### `<leader>b` Mapping
+**Usage:**
 
-####  Overview:
-Writes the doc string for the python function, method or class
-that is copied to the "0 register.
+- Place the cursor over a line that matches one of the supported formats.
+- Press `<Leader>t` to open the file and jump to the specified line.
 
-The created docstring is copied to the "* register.
+**Example:**
 
+- After running tests, you see:
 
-#### Mapping Command
+  ```
+  File "/home/user/project/module.py", line 10, in func
+  ```
+
+  Place the cursor on this line and press `<Leader>t` to open `module.py` at line 10.
+
+### 4.3. `<Leader>b` Mapping
+
+**Description:**
+
+- Generates a docstring template for the Python function, method, or class under the cursor.
+
+**Mode:**
+
+- Normal mode
+
+**Default Mapping:**
+
 ```vim
-nnoremap <leader>t :call vim_my_tools#OpenFile()<CR>
+nnoremap <silent><Leader>b :call VimMyTools#MakeDocStr()<CR>
 ```
 
-#### Setting the QueryCrafter host
+**Features:**
 
-If you need to use a remote QueryCrafter server you can add it in the file:
-`VimMyTools/mytools/.config.json`
+- Writes the docstring to the unnamed register (`"0`).
+- Copies the created docstring to the system clipboard (`"*`), allowing you to paste it elsewhere.
 
-using this format:
+**Usage:**
+
+- Place the cursor on the line of a function, method, or class definition.
+- Press `<Leader>b` to generate the docstring.
+- The docstring is now available for pasting.
+
+**Example:**
+
+- With the cursor on:
+
+  ```python
+  def calculate_area(radius):
+  ```
+
+  Press `<Leader>b`, and then paste to insert:
+
+  ```python
+  def calculate_area(radius):
+      """
+      Calculate the area of a circle given its radius.
+
+      :param radius: The radius of the circle.
+      :type radius: float
+      :return: The area of the circle.
+      :rtype: float
+      """
+  ```
+
+### 4.4. Buffer Navigation Keybindings
+
+VimMyTools enhances buffer management by keeping track of buffers per window in the order they were opened.
+
+**Auto Commands:**
+
+```vim
+autocmd! BufWinEnter * call VimMyTools#AddBuffer()
+autocmd! WinNew * call VimMyTools#AddBuffer()
 ```
-{
-    "QUERYCRAFTER_HOST": "http://kasos:15959"
-}
+
+#### 4.4.1. `<C-n>`: Show Next Buffer
+
+**Default Mapping:**
+
+```vim
+nnoremap <C-n> :call VimMyTools#ShowNextBuffer()<CR>
 ```
 
-By default the pluggin in expecting the serive to be running under the local
-host in the `15959` port.
+**Usage:**
 
-## Future Enhancements
-VimMyTools is designed with extensibility in mind. Future updates may introduce
-additional features to further support Python developers in their coding
-environment.
+- In Normal mode, press `<C-n>` to switch to the next buffer in the list for the current window.
 
-## Contributing
-Contributions are welcome! Please feel free to submit issues or pull requests
-to help improve VimMyTools.
+#### 4.4.2. `<C-b>`: Show Previous Buffer
+
+**Default Mapping:**
+
+```vim
+nnoremap <C-b> :call VimMyTools#ShowPreviousBuffer()<CR>
+```
+
+**Usage:**
+
+- In Normal mode, press `<C-b>` to switch to the previous buffer in the list
+  for the current window.
+
+#### 4.4.3. `<C-a>`: List Buffers for Active Window
+
+**Default Mapping:**
+
+```vim
+nnoremap <C-a> :call VimMyTools#ListBuffersForActiveWindow()<CR>
+```
+
+**Usage:**
+
+- In Normal mode, press `<C-a>` to display a list of buffers associated with
+  the current window.
+
+**Note:**
+
+- These mappings are designed to navigate buffers based on the order they were
+  opened and accessed, providing an IDE-like experience.
+
+---
+
+## Commands
+
+VimMyTools provides the following commands through its mappings:
+
+- `VimMyTools#RunSelectedScript()`
+
+  - Executes the current Python script or test.
+
+- `VimMyTools#OpenFile()`
+
+  - Opens a file and jumps to a specific line based on the text under the
+    cursor.
+
+- `VimMyTools#MakeDocStr()`
+
+  - Generates a Python docstring for the function, method, or class under the
+    cursor.
+
+- `VimMyTools#AddBuffer()`
+
+  - Adds the current buffer to the window's buffer list.
+
+- `VimMyTools#ShowNextBuffer()`
+
+  - Switches to the next buffer in the window's buffer list.
+
+- `VimMyTools#ShowPreviousBuffer()`
+
+  - Switches to the previous buffer in the window's buffer list.
+
+- `VimMyTools#ListBuffersForActiveWindow()`
+
+  - Lists all buffers associated with the current window.
+
+---
+
+## License
+
+VimMyTools is open-source software licensed under the
+GNU GENERAL PUBLIC LICENSE License.
+
+---
+
+## Contact Information
+
+
+**Email:**
+
+<codingismycraft@gmail.com>
+
+**GitHub Repository:**
+
+[https://github.com/codingismycraft/VimMyTools/VimMyTools](https://github.com/codingismycraft/VimMyTools/VimMyTools)
+
+For any questions, issues, or contributions, please feel free to reach out or
+submit an issue on GitHub.
+
+---
+
+
+**To read the introduction:**
+
+```vim
+:help VimMyTools
+```
+
+**To learn about the `<Leader>r` mapping:**
+
+```vim
+:help VimMyTools-mapping-leader-r
+```
+
+**To see all key mappings:**
+
+```vim
+:help VimMyTools-key-mappings
+```
+
+### Customizing Key Mappings
+
+If you prefer to use different key mappings, you can disable the default
+mappings and set your own.
+
+**Disable Default Mappings:**
+
+Add the following line to your `vimrc`:
+
+```vim
+let g:VimMyTools_no_mappings = 1
+```
+
+**Set Custom Mappings:**
+
+After disabling the defaults, define your custom mappings:
+
+```vim
+nnoremap <YourKey> :call VimMyTools#RunSelectedScript()<CR>
+nnoremap <YourKey> :call VimMyTools#OpenFile()<CR>
+nnoremap <YourKey> :call VimMyTools#MakeDocStr()<CR>
+nnoremap <YourKey> :call VimMyTools#ShowNextBuffer()<CR>
+nnoremap <YourKey> :call VimMyTools#ShowPreviousBuffer()<CR>
+nnoremap <YourKey> :call VimMyTools#ListBuffersForActiveWindow()<CR>
+```
+
+**Example:**
+
+```vim
+" Disable default mappings
+let g:VimMyTools_no_mappings = 1
+
+" Custom mappings
+nnoremap <Leader>p :call VimMyTools#RunSelectedScript()<CR>
+nnoremap <Leader>o :call VimMyTools#OpenFile()<CR>
+nnoremap <Leader>d :call VimMyTools#MakeDocStr()<CR>
+nnoremap <Leader>n :call VimMyTools#ShowNextBuffer()<CR>
+nnoremap <Leader>b :call VimMyTools#ShowPreviousBuffer()<CR>
+nnoremap <Leader>a :call VimMyTools#ListBuffersForActiveWindow()<CR>
+```
+
+---
+
+## Final Remarks
+
+This documentation provides users with all the necessary information to install, configure, and use VimMyTools effectively. Ensure that the documentation stays updated with any changes or new features added to the plugin.
+
+Feel free to customize and expand upon this documentation to suit your needs.
+
+---
+
+*vim:tw=78:ts=8:ft=help:norl:*

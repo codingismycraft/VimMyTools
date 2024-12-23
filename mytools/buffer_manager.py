@@ -130,10 +130,11 @@ class BufferManager:
 
 
     @classmethod
-    def get_buffers(cls, window_id):
+    def get_buffers(cls, window_id, current_buffer_id):
         """Returns the buffer_id for the passed in window_id.
 
         :param int window_id: The window_id to get the buffers for.
+        :param int current_buffer_id: The current buffer id to start from.
 
         :returns: A list with the buffer ids for the passed in window.
         :rtype: list
@@ -143,7 +144,8 @@ class BufferManager:
         buffers = cls._buffers_per_window.get(window_id)
         if not buffers:
             raise ValueError(f"Window id {window_id} not BufferManager.")
-        return buffers[:]
+        index = buffers.index(current_buffer_id)
+        return [buffers[index]] + buffers[index+1:] + buffers[0:index]
 
     @classmethod
     def get_as_str(cls):
