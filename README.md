@@ -4,6 +4,9 @@ VimMyTools - Streamline Python Development in Vim
 
 ---
 
+[![LICENCE](https://img.shields.io/badge/LICENCE-VimMyTools-green?style=flat&link=https://github.com/codingismycraft/VimMyTools/blob/main/LICENSE)](https://github.com/codingismycraft/VimMyTools/blob/main/LICENSE)
+
+
 ## Contents
 
 1. [Introduction](#introduction)
