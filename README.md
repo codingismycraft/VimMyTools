@@ -9,12 +9,29 @@ VimMyTools - Streamline Python Development in Vim
 
 ## Contents
 
-1. [Running Scrips](#running-scripts)
-2. [Open File](#open-file)
-3. [Automate documenation](#automate-documentation)
-3. [Buffer Navigation](#buffer-navigation)
+1. [Installation](#installation)
+2. [Running Scrips](#running-scripts)
+3. [Open File](#open-file)
+4. [Automate documenation](#automate-documentation)
+5. [Buffer Navigation](#buffer-navigation)
 
 ---
+
+## Installation
+
+VimMyTools is a vim plugin adding python utilites and buffer navigation
+features to vim.
+
+The preferred method of installation is using `Vundle`. However, other plugin
+installers should work fine as well (although they have not been tested). To
+install using Vundle, add the following lines to your .vimrc file:
+
+```
+call vundle#begin()
+Plugin 'gmarik/Vundle.vim'
+Plugin 'codingismycraft/VimMyTools'
+call vundle#end()
+```
 
 ## Running Scripts
 
@@ -139,9 +156,9 @@ Each split window is maintaining its own collection of the buffers that were
 viewd in it thus we can move back and forward for each window for each buffer
 maintaing the same order that the buffer was opened.
 
-`<leader>n` : Moves to the next buffer (or if in last to the first buffer opened).
+`<C-n>` : Moves to the next buffer (or if in last to the first buffer opened).
 
-`<leader>b` : Moves to the previous buffer (or is first to the last buffer opened).
+`<C-b>` : Moves to the previous buffer (or is first to the last buffer opened).
 
-`<C-a>` : Show all buffers for the current window.
+`<C-v>` : Show all buffers for the current window.
 

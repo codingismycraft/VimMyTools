@@ -126,11 +126,11 @@ Each split window is maintaining its own collection of the buffers that were vie
 thus we can move back and forward for each window for each buffer maintaing the same order that
 the buffer was opened.
 
-`<leader>n` : Moves to the next buffer (or if in last to the first buffer opened).
+`<C-n>` : Moves to the next buffer (or if in last to the first buffer opened).
 
-`<leader>b` : Moves to the previous buffer (or is first to the last buffer opened).
+`<C-b>` : Moves to the previous buffer (or is first to the last buffer opened).
 
-`<C-a>` : Show all buffers for the current window.
+`<C-v>` : Show all buffers for the current window.
 
 
 
