@@ -160,5 +160,5 @@ maintaing the same order that the buffer was opened.
 
 `<C-b>` : Moves to the previous buffer (or is first to the last buffer opened).
 
-`<C-v>` : Show all buffers for the current window.
+`<C-m>` : Show all buffers for the current window.
 

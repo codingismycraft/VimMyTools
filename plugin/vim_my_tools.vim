@@ -111,7 +111,7 @@ nnoremap <C-n> :call vim_my_tools#ShowNextBuffer()<CR>
 nnoremap <C-b> :call vim_my_tools#ShowPreviousBuffer()<CR>
 
 " Ctrl -a : Displays all available buffers
-nnoremap <C-v> :call vim_my_tools#ListBuffersForActiveWindow()<CR>
+nnoremap <C-m> :call vim_my_tools#ListBuffersForActiveWindow()<CR>
 
 
 
