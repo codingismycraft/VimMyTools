@@ -262,3 +262,17 @@ except Exception as ex:
 endpython
 endfunction
 
+
+function! vim_my_tools#ScratchPad()
+" Open a scratch window
+let name="scratch-pad"
+let windowNr = bufwinnr(name)
+if windowNr > 0
+    execute windowNr 'wincmd w'
+else
+    execute "sp ". name
+    setlocal buftype=nofile
+    setlocal bufhidden=hide
+    setlocal noswapfile
+endif
+endfunction
