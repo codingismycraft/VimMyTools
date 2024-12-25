@@ -14,6 +14,7 @@ VimMyTools - Streamline Python Development in Vim
 3. [Open File](#open-file)
 4. [Automate documenation](#automate-documentation)
 5. [Buffer Navigation](#buffer-navigation)
+6. [Scratch Pad](#scratch-pad)
 
 ---
 
@@ -160,5 +161,18 @@ maintaing the same order that the buffer was opened.
 
 `<C-b>` : Moves to the previous buffer (or is first to the last buffer opened).
 
-`<C-m>` : Show all buffers for the current window.
+To print the buffers for the current window you can execute the folloing command:
 
+```
+:Lsa
+```
+
+---
+
+## Scratch Pad
+
+To open a scratch pad window you can execute the following command:
+
+```
+:Scratch
+```

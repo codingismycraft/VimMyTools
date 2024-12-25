@@ -12,8 +12,8 @@ VimMyTools - Streamline Python Development in Vim
 1. [Running Scrips](#running-scripts)
 2. [Open File](#open-file)
 3. [Automate documenation](#automate-documentation)
-3. [Buffer Navigation](#buffer-navigation)
-
+4. [Buffer Navigation](#buffer-navigation)
+5. [Scratch Pad](#scratch-pad)
 ---
 
 ## Running Scripts
@@ -132,5 +132,18 @@ the buffer was opened.
 
 `<C-m>` : Show all buffers for the current window.
 
+To print the buffers for the current window you can execute the folloing command:
 
+```
+:Lsa
+```
 
+---
+
+## Scratch Pad
+
+To open a scratch pad window you can execute the following command:
+
+```
+:Scratch
+```
