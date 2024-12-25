@@ -110,9 +110,8 @@ nnoremap <C-n> :call vim_my_tools#ShowNextBuffer()<CR>
 " Ctrl -b : Displays the previous buffer in the list.
 nnoremap <C-b> :call vim_my_tools#ShowPreviousBuffer()<CR>
 
-" Ctrl -a : Displays all available buffers
-nnoremap <C-m> :call vim_my_tools#ListBuffersForActiveWindow()<CR>
+" lsa: Displays all available buffers
+command! Lsa execute "call vim_my_tools#ListBuffersForActiveWindow()"
 
-
-
-
+" Open scratch window.
+command! Scratch execute "call vim_my_tools#ScratchPad()"
