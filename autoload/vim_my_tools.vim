@@ -210,6 +210,7 @@ try:
             vim.command(f"buffer {b}")
             break
         else:
+            print("Removing buffer: " + str(b))
             buffer_manager.BufferManager.remove_buffer(b)
 except Exception as ex:
     print("Failed to show next buffer: " + str(ex))

@@ -94,7 +94,7 @@ nnoremap <leader>t :call vim_my_tools#OpenFile()<CR>
 "
 " The created docstring is copied to the "* register.
 "
-nnoremap <silent><leader>b :call vim_my_tools#MakeDocStr()<CR>
+" nnoremap <silent><leader>b :call vim_my_tools#MakeDocStr()<CR>
 
 "=============================================================================
 "
@@ -105,10 +105,10 @@ autocmd! BufWinEnter * :call vim_my_tools#AddBuffer()
 autocmd! WinNew * :call vim_my_tools#AddBuffer()
 
 " Ctrl -n : Displays the next buffer in the list.
-nnoremap <C-n> :call vim_my_tools#ShowNextBuffer()<CR>
+" nnoremap <C-n> :call vim_my_tools#ShowNextBuffer()<CR>
 
 " Ctrl -b : Displays the previous buffer in the list.
-nnoremap <C-b> :call vim_my_tools#ShowPreviousBuffer()<CR>
+" nnoremap <C-b> :call vim_my_tools#ShowPreviousBuffer()<CR>
 
 " lsa: Displays all available buffers
 command! Lsa execute "call vim_my_tools#ListBuffersForActiveWindow()"
