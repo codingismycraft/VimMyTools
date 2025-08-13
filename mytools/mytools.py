@@ -34,7 +34,7 @@ def get_exec_target(fullpath, linenum):
         - The full path, class name, and method name for a test method in a
           class.
     """
-    with open(fullpath, 'r', encoding='utf-8') as file:
+    with open(fullpath, "r", encoding="utf-8") as file:
         source = file.read()
     module = ast.parse(source)
 
@@ -44,14 +44,20 @@ def get_exec_target(fullpath, linenum):
     for node in ast.walk(module):
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
             # Check if the function node includes the line number
-            if node.lineno <= linenum < (
-                    node.end_lineno or (node.lineno + len(node.body))):
+            if (
+                node.lineno
+                <= linenum
+                < (node.end_lineno or (node.lineno + len(node.body)))
+            ):
                 targeted_function = node.name
                 break
         elif isinstance(node, ast.ClassDef):
             # Check if class node contains the line number
-            if node.lineno <= linenum < (
-                    node.end_lineno or (node.lineno + len(node.body))):
+            if (
+                node.lineno
+                <= linenum
+                < (node.end_lineno or (node.lineno + len(node.body)))
+            ):
                 current_class = node.name
 
     if targeted_function and targeted_function.lower().startswith("test"):
@@ -72,7 +78,7 @@ def is_testing_script(filepath):
     Returns:
     - bool: True if the script is likely a testing script, False otherwise.
     """
-    with open(filepath, 'r', encoding='utf-8') as file:
+    with open(filepath, "r", encoding="utf-8") as file:
         source = file.read()
 
     try:
@@ -85,56 +91,12 @@ def is_testing_script(filepath):
         # Check for test-related imports
         if isinstance(node, ast.Import) or isinstance(node, ast.ImportFrom):
             for alias in node.names:
-                if alias.name in {'unittest', 'pytest', 'nose'}:
+                if alias.name in {"unittest", "pytest", "nose"}:
                     return True
 
         # Check function definitions
         if isinstance(node, ast.FunctionDef):
-            if node.name.startswith('test_'):
+            if node.name.startswith("test_"):
                 return True
 
     return False
-
-
-def get_filename_and_line(line):
-    """Extracts the filepath and the line from the passed in line.
-
-    Used to jump to the file and the line that is causing a python exception.
-    Expects the standard format that is used from python tracebacks, example:
-
-    File "/home/user/junk/junk.py", line 3, in <module>
-
-    Note that this function does not check wheather the returned file exists or
-    not; this something that the called should do.
-
-
-    :param str line: The line of text to extract the fullpath; if no path is
-    found then a ValueError exception is raised.
-
-    :returns: A tuple consisting of the filepath and line number.
-    :rtype: Tuple [str, int]
-
-    :raises: ValueError
-    """
-    log_entry = line
-    pattern = r'File "(.*?)", line (\d+)'
-    match = re.search(pattern, log_entry)
-    if match:
-        full_path = match.group(1)
-        line_number = match.group(2)
-        line_number = int(line_number)
-        return full_path, line_number
-    else:
-        # Try the alternative formats which are delimeted by | or by :
-        tokens = line.split("|")
-        if len(tokens) < 2:
-            tokens = line.split(":")
-        if len(tokens) < 2:
-            raise ValueError
-        full_path = tokens[0]
-        try:
-            line_number = int(tokens[1])
-        except Exception as ex:
-            raise ValueError from ex
-        return full_path, line_number
-    raise ValueError
