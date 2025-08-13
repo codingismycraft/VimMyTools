@@ -8,31 +8,8 @@ import subprocess
 import sys
 import vim
 
-def preparePythonPath():
-    """Adds the path of the related code to the python path.
-
-    The path is added only once since we rely on a script scoped
-    variable (path_was_added) as the import guard.
-    """
-    was_added = int(vim.eval("s:path_was_added"))
-    if not was_added:
-        path = vim.eval("s:plugin_path")
-        path = os.path.dirname(path)
-        sys.path.insert(0, path)
-        vim.command("let s:path_was_added = 1")
 endpython
 
-function! vim_my_tools#MakeDocStr()
-set cmdheight=2
-echo "Please wait.."
-let fullpath = s:plugin_path . "/../mytools/execquery.py"
-let exit_status = system(fullpath)
-if v:shell_error != 0
-    echom "Query Execution failed!"
-else
-    echo "Query Execution OK."
-endif
-endfunction
 
 
 function! vim_my_tools#RunSelectedScript()
@@ -50,7 +27,6 @@ function! vim_my_tools#RunSelectedScript()
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 python3 << endpython
-preparePythonPath()
 import mytools.mytools as mytools
 home_dir = vim.eval("""expand("$HOME")""")
 fullpath = vim.eval("""expand("%:p")""").strip()
@@ -85,10 +61,6 @@ else:
 endpython
 call feedkeys(":make", 'n')
 endfunction
-
-
-
-
 
 
 function! vim_my_tools#ScratchPad()
